@@ -12,6 +12,18 @@ MBGIE is a quantum embedding technique that:
 
 ## Installation
 
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/Multi-Basis_Graph-Interaction_Embedding.git
+cd Multi-Basis_Graph-Interaction_Embedding
+```
+
+2. Install requirements:
+```bash
+pip install -r requirements.txt
+```
+
+3. Install the package in development mode:
 ```bash
 pip install -e .
 ```
