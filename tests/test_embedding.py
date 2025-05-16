@@ -115,3 +115,41 @@ def test_large_system_embedding():
         np.testing.assert_allclose(xx.parameters[0], features[i][0])
         np.testing.assert_allclose(yy.parameters[0], features[i][1])
         np.testing.assert_allclose(zz.parameters[0], features[i][2])
+
+def test_mbgie_with_z_measurements():
+    """Test combining MBGIE with arbitrary circuits and Z-basis measurements."""
+    # Initialize a 3-qubit device
+    dev = qml.device("default.qubit", wires=3)
+    
+    # Create feature vectors
+    features = np.array([[0.1, 0.2, 0.3]])
+    wires = [0, 1, 2]
+    pattern = [(0, 1), (1, 2)]  # Simple chain pattern
+    
+    @qml.qnode(dev)
+    def circuit():
+        # Prepare initial superposition state
+        for wire in wires:
+            qml.Hadamard(wire)
+            
+        # Apply MBGIE
+        MBGIEmbedding(features, wires, pattern)
+        
+        # Add arbitrary circuit operations
+        qml.CNOT(wires=[0, 1])
+        qml.RY(0.5, wires=2)
+        
+        # Return Z-basis measurements
+        return [qml.expval(qml.Z(wire)) for wire in wires]
+      # Execute circuit and get measurements
+    measurements = np.array(circuit())
+    
+    # Verify output shape and type
+    assert len(measurements) == 3
+    assert isinstance(measurements, np.ndarray)
+    assert all(isinstance(m, float) for m in measurements)
+    assert all(-1 <= m <= 1 for m in measurements)  # Z measurements should be in [-1, 1]
+
+    # Test that the circuit is deterministic
+    measurements2 = circuit()
+    np.testing.assert_allclose(measurements, measurements2)  # Same circuit should give same results
