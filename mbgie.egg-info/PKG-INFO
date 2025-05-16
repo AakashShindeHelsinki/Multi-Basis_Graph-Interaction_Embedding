@@ -1,0 +1,18 @@
+Metadata-Version: 2.2
+Name: mbgie
+Version: 0.1.0
+Summary: Multi-Basis Graph Interaction Embedding for quantum data embedding
+Author: Author Name
+Author-email: author@example.com
+Requires-Python: >=3.8
+Requires-Dist: pennylane>=0.32.0
+Requires-Dist: numpy>=1.21.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: matplotlib>=3.5.0; extra == "dev"
+Dynamic: author
+Dynamic: author-email
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
